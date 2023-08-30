@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env.deploy' });
 
 const {
   NODE_ENV, JWT_SECRET, DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF,
