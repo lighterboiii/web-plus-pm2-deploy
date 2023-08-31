@@ -1,17 +1,13 @@
 require('dotenv').config({ path: './.env.deploy' });
 
 const {
-  NODE_ENV, JWT_SECRET, DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF,
+  DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF = 'origin/master', DEPLOY_REPO,
 } = process.env;
 
 module.exports = {
   apps: [{
-    name: 'mesto-backend',
-    script: 'dist/app.js',
-    env_production: {
-      NODE_ENV,
-      JWT_SECRET,
-    },
+    name: 'backend',
+    script: './dist/app.js',
   }],
 
   deploy: {
@@ -19,10 +15,10 @@ module.exports = {
       user: DEPLOY_USER,
       host: DEPLOY_HOST,
       ref: DEPLOY_REF,
-      repo: 'git@github.com:lighterboiii/web-plus-pm2-deploy.git',
+      repo: DEPLOY_REPO,
       path: DEPLOY_PATH,
       'pre-deploy-local': `scp ./.env.deploy ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
-      'post-deploy': 'cd backend && npm i && npm run build && pm2 startOrRestart ecosystem.config.js --env production',
+      'post-deploy': `cd ${DEPLOY_PATH}/source/backend && npm i && npm run build`,
     },
   },
 };

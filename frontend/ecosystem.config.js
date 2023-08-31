@@ -1,18 +1,22 @@
-require("dotenv").config({ path:'./.env.deploy' });
+require('dotenv').config({ path: './.env.deploy' });
 
-const { DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF } = process.env;
+const {
+  DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF = 'origin/master', DEPLOY_REPO,
+} = process.env;
 
 module.exports = {
-  apps: [],
+  apps: [{
+    name: 'frontend',
+  }],
 
   deploy: {
     production: {
       user: DEPLOY_USER,
       host: DEPLOY_HOST,
       ref: DEPLOY_REF,
-      repo: "git@github.com:lighterboiii/web-plus-pm2-deploy.git",
+      repo: DEPLOY_REPO,
       path: DEPLOY_PATH,
-      "post-deploy": "cd frontend && npm i && npm run build",
+      'post-deploy': `cd ${DEPLOY_PATH}/source/frontend && npm i && npm run build`,
     },
   },
 };
