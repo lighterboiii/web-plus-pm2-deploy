@@ -139,6 +139,6 @@ class Api {
   }
   }
 
-  const api = new Api('https://api.students.nomoredomainsicu.ru/');
+  const api = new Api('https://api.mesto.students.nomoredomainsicu.ru');
 
   export default api;
